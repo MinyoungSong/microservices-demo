@@ -1,3 +1,11 @@
+kubectl apply --context=$CTX_CLUSTER2 -f - <<EOF
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sock-shop
+  labels:
+    istio-injection: enabled
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -204,12 +212,15 @@ kind: Deployment
 metadata:
   name: front-end
   namespace: sock-shop
+  labels:
+    app: front-end
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         name: front-end
+        app: front-end
     spec:
       containers:
       - name: front-end
@@ -650,3 +661,4 @@ spec:
     targetPort: 80
   selector:
     name: user
+EOF
